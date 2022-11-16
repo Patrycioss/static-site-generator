@@ -3,3 +3,4 @@
 *.md
 *.bak
 *.png
+/output/

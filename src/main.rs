@@ -49,13 +49,26 @@ fn generate_from_markdown(entry: &std::fs::DirEntry, header_template: &str, foot
     let combined : String = header_template.to_string() + html.as_str() + footer_template;
     
     
-    let path_prefix : String = "output/".to_string();
-    let file_path = path_prefix + entry.path().file_stem().unwrap().to_str().unwrap() + ".html"; 
+    let path_prefix = "output/";
+    let file_path = path_prefix.to_string() + entry.path().file_stem().unwrap().to_str().unwrap() + ".html"; 
     
+    
+    let path = std::path::Path::new(path_prefix);
+    
+    if !path.exists()
+    {
+        match std::fs::create_dir(path) {
+            Ok(_) => {}
+            Err(error) => {
+                panic!("Failed to create directory {} with error {}", path_prefix, error);
+            }
+        };
+    }
     let _ = match std::fs::write(std::path::Path::new(file_path.as_str()), combined)
     {
         Ok(_) => { }
         Err(error) => {
+            
             panic!("Failed to write file {} with error {}", entry.path().display(), error);
         }
     };
