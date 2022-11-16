@@ -1,2 +1,5 @@
 /target
 .idea/
+*.md
+*.bak
+*.png
